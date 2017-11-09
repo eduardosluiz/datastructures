@@ -236,4 +236,96 @@ public class RedBlackTree<T extends Comparable<T>>
 		else
 			root.print();
 	}
+
+
+//Os cases foram feitos baseados em leituras feitas sobre exclusão em árvore redblack. Confesso que achei bem complicada a implementação, porém, tentei entender como funciona o algorítmo
+//e tentei explicar criando os cases a baixo com comentários sobre o que acontece em cada case.
+
+
+
+        public void excluiFilho ( Node nova ) {
+            Node son;
+                if (Node.Right != null)
+                son = Node.Right;
+                else 
+                son = Node.Left;
+            SubstituiNo(Node, son)
+                if(Node.cor == Black){
+                if(son.cor == Red)
+                son.cor = Black;
+            else
+                ExclusaoCaso1(son);
+
+// no caso 1 vamos setar que "nova" seja a nova raiz se nova for diferente de null quer dizer que estamos na raiz então pulamos para o caso 2
+
+        public void excluiCaso1( Node nova){
+        if ( nova.parent != null)
+        excluiCaso2(nova);
+}
+// No caso 2 se o nó irmão for vermelho seta vermelho no pai e preto no irmão; Depois rotacionamos o nó para a esquerda do pai se o pai estiver para a esquerda, se não, rotacionamos para a direita.
+        public void excluiCaso2(Node nova){
+        Node i = irmao(nova);
+        if (i.cor == Red){
+        nova.parent.cor = Red;
+        i.cor Black;
+        if (nova == nova.parent.left)
+        rotateLeft(nova.parent);
+        else
+        rotateRight(nova.parent);
+}
+        exclusaoCaso3(nova);
+
+}
+// No caso 3 Se o pai, irmao e filho forem pretos pintamos de vermelho o irmão, se não, chamamos o caso de exclusão 4.
+        public void excluiCaso3(Node nova){
+        Node i = irmao(nova);
+        if((nova.parent.cor == Black) && (i.cor == Black) && (i.left.cor == Black) && (i.Right.cor == Black)) {
+        i.cor = Red;
+        excluiCaso1(nova.parent);
+        }else
+        excluiCaso4(nova);
+
+}
+//No caso 4 se pai é vermelho mas o irmao e filhos são pretos. Pintamos de vermelho o irmão e o pai de preto. Se não, chamamos o caso 5
+        public void excluiCaso4(Node nova){
+        Node i = irmao(nova);
+        if ((nova.parent.cor == Red) && (i.cor == Black) && ( i.left.cor == Black) && (i.right.cor == Black)) {
+        i.cor = Red;
+        nova.parent.cor = Black;
+        }else
+        excluiCaso5(nova);
+}
+// No caso 5 se o irmao for preto acessa o primeiro if e a raiz for igual o pai a esquerda e a cor do irmao a direita for preto e o irmao a esquerda vermelho,
+// o irmao recebe vermelho e o irmao a esquerda preto e é rotacionado para a direita. Se não, se o nó pai estiver a direita e o irmao a esquerda for preto e irmao a direita for vermelho
+// irmao a esquerda recebe vermelho e o irmao a direita recebe preto e toraciona o irmao para a esquerda.
+        public void excluiCaso5(Node nova){
+        Node i = irmao(nova);
+        if (i.cor == Black){
+        if((nova == nova.parent.left) && (i.right.cor == Black) && (i.left.cor == Red)) {
+        i.cor = Red;
+        i.left.cor = Black;
+        rotateRight(i);
+        }else if ((nova == nova.parent.right) && (i.left.cor == Black) && (i.right.cor == Red)){
+        i.cor = Red;
+        i.right.cor = Black;
+        rotateLeft(i);
+}
+}
+        excluiCaso6(nova);  
+}
+// No caso 6 o nó irmão copia a cor do pai, se o nó pai estiver a esquerda o nó irmao recebe a cor preta. e rotaciona o nó pai para esquerda
+// Se não, o irmão a esquerda recebe preto e rotaciona o pai para a direita.      
+  public void excluiCaso6(Node nova){
+Node i = irmao(nova);
+i.cor = nova.parent.cor;
+nova.parent.cor = Black;
+if ( nova == nova.parent.left){
+i.right.cor = Black;
+rotateLeft(nova.parent);
+}else{
+i.left.cor = Black;
+rotateRight(nova.parent);
+}
+}
+
 }
